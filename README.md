@@ -149,7 +149,8 @@ valve-protocol/
 │   │   └── libraries/
 │   │       └── StreamMath.sol         # rate × elapsed time helpers
 │   ├── script/
-│   │   ├── Deploy.s.sol               # Deploy Registry + Vault
+│   │   ├── Deploy.s.sol               # Deploy Registry + Vault (use UUPS to allow easy upgrading)
+|   |   ├── Upgrade.s.sol			   # Upgrade the contracts
 │   │   └── Seed.s.sol                 # Demo providers / sample streams for the pitch
 │   ├── test/
 │   │   ├── ValveRegistry.t.sol        # Unit tests

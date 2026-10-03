@@ -26,12 +26,12 @@ The frontend strips out Web3 friction. Users sign in with social accounts, appro
 
 **Scenario:** Alice subscribes to a premium AI developer tool that costs $30/month. She only needs it for an intensive weekend feature sprint (exactly 48 hours).
 
-| | Web2 (Legacy) | Valve |
-|---|---|---|
-| Upfront cost | $30.00 | $0.00 |
-| Cancellation | Remember to cancel, navigate churn surveys | One toggle |
-| Final cost | $30.00 | **$2.00** (48 hrs of streaming) |
-| Funds left in wallet | $0.00 | **$28.00**, untouched |
+|                      | Web2 (Legacy)                              | Valve                                 |
+| -------------------- | ------------------------------------------ | ------------------------------------- |
+| Upfront cost         | $30.00                                     | $0.00                                 |
+| Cancellation         | Remember to cancel, navigate churn surveys | One toggle                            |
+| Final cost           | $30.00                                     | **$2.00** (48 hrs of streaming) |
+| Funds left in wallet | $0.00                                      | **$28.00**, untouched           |
 
 Alice toggles the stream **ON** Friday night and **OFF** Sunday night. The contract streams exactly 48 hours of linear payment, and she pays $2.00.
 
@@ -61,7 +61,7 @@ Valve pairs modular smart contracts with a Web2-style login experience.
 ```
   ┌────────────────────────────────────────────────────────┐
   │                   FRONTEND / CLIENT                    │
-  │     Next.js Dashboard + ZeroDev Passkey Account        │
+  │     React.js Dashboard + ZeroDev Passkey Account       │
   └──────────────────────────┬─────────────────────────────┘
                              │ (Gasless Meta-Transactions)
                              ▼
@@ -92,15 +92,15 @@ Valve pairs modular smart contracts with a Web2-style login experience.
 
 ## Stack & Specs
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| Blockchain | [Arbitrum One](https://arbitrum.io/) | Layer-2 with ultra-low fees that make per-second micro-billing viable |
-| Smart Contracts | Solidity + [OpenZeppelin](https://docs.openzeppelin.com/) | Secure ERC20 and access-control primitives |
-| Node Infrastructure | [Alchemy](https://docs.alchemy.com) | Reliable RPC access and transaction bundling |
-| Account Abstraction & Auth | [ZeroDev](https://docs.zerodev.app/) | Social logins, WebAuthn passkeys and gasless session keys |
-| Analytics | [Dune Analytics](https://dune.com) | Dashboards for subscription metrics and cash flows |
-| Frontend | Next.js | On/off toggle dashboard |
-| Testing | Foundry | Unit and fuzz tests |
+| Layer                      | Technology                                              | Purpose                                                               |
+| -------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------- |
+| Blockchain                 | [Arbitrum One](https://arbitrum.io/)                     | Layer-2 with ultra-low fees that make per-second micro-billing viable |
+| Smart Contracts            | Solidity +[OpenZeppelin](https://docs.openzeppelin.com/) | Secure ERC20 and access-control primitives                            |
+| Node Infrastructure        | [Alchemy](https://docs.alchemy.com)                      | Reliable RPC access and transaction bundling                          |
+| Account Abstraction & Auth | [ZeroDev](https://docs.zerodev.app/)                     | Social logins, WebAuthn passkeys and gasless session keys             |
+| Analytics                  | [Dune Analytics](https://dune.com)                       | Dashboards for subscription metrics and cash flows                    |
+| Frontend                   | React.js                                                | On/off toggle dashboard                                               |
+| Testing                    | Foundry                                                 | Unit and fuzz tests                                                   |
 
 ---
 
@@ -139,8 +139,8 @@ foundryup
 ### Installation
 
 ```bash
-git clone https://github.com/<your-username>/valve-protocol.git
-cd valve-protocol/contracts
+git clone https://github.com/teewa56/valve.git
+cd valve/contracts
 forge install OpenZeppelin/openzeppelin-contracts
 ```
 

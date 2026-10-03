@@ -109,17 +109,74 @@ Valve pairs modular smart contracts with a Web2-style login experience.
 ```
 valve-protocol/
 ├── apps/
-│   └── frontend/              # Next.js web application dashboard
-│       ├── components/        # On/Off UI toggle components
-│       └── hooks/             # ZeroDev account abstraction hooks
+│   └── frontend/                      # React.js dashboard
+│       ├── app/
+│       │   ├── layout.tsx             # Root layout + providers
+│       │   ├── page.tsx               # Landing / login
+│       │   ├── dashboard/
+│       │   │   └── page.tsx           # Subscription toggle panel
+│       │   └── provider/
+│       │       └── page.tsx           # Service provider view (earnings, active streams)
+│       ├── components/
+│       │   ├── StreamToggle.tsx       # On/Off valve switch
+│       │   ├── SubscriptionCard.tsx   # Service name, rate, live accrued cost
+│       │   ├── LiveCounter.tsx        # Per-second cost ticker
+│       │   └── LoginButton.tsx        # Social / passkey login
+│       ├── hooks/
+│       │   ├── useZeroDevAccount.ts   # Passkey smart account + session keys
+│       │   ├── useStreams.ts          # Read active streams from Registry
+│       │   └── useToggleStream.ts     # Open / close a stream
+│       ├── lib/
+│       │   ├── zerodev.ts             # ZeroDev kernel client setup
+│       │   ├── chains.ts              # Arbitrum One + Arbitrum Sepolia config
+│       │   ├── contracts.ts           # Addresses + typed contract instances
+│       │   └── abis/                  # ABIs exported from Foundry builds
+│       │       ├── ValveRegistry.json
+│       │       └── ValveVault.json
+│       ├── public/
+│       ├── .env.example
+│       ├── vite.config.js
+│       ├── package.json
+│       └── tsconfig.json
+│
 ├── contracts/
-│   ├── src/                   # Solidity smart contracts
-│   │   ├── ValveRegistry.sol  # Core stream registry
-│   │   └── ValveVault.sol     # Escrow management
-│   ├── lib/                   # OpenZeppelin dependencies
-│   └── test/                  # Foundry unit and fuzz tests
+│   ├── src/
+│   │   ├── ValveRegistry.sol          # Stream creation, rate math, accrual accounting
+│   │   ├── ValveVault.sol             # Escrow + settlement to providers
+│   │   ├── interfaces/
+│   │   │   ├── IValveRegistry.sol
+│   │   │   └── IValveVault.sol
+│   │   └── libraries/
+│   │       └── StreamMath.sol         # rate × elapsed time helpers
+│   ├── script/
+│   │   ├── Deploy.s.sol               # Deploy Registry + Vault
+│   │   └── Seed.s.sol                 # Demo providers / sample streams for the pitch
+│   ├── test/
+│   │   ├── ValveRegistry.t.sol        # Unit tests
+│   │   ├── ValveVault.t.sol
+│   │   ├── fuzz/
+│   │   │   └── StreamMath.fuzz.t.sol  # Linear-time fuzz tests
+│   │   ├── invariant/
+│   │   │   └── Valve.invariant.t.sol  # e.g. provider can never pull more than accrued
+│   │   └── mocks/
+│   │       └── MockUSDC.sol           # Test token for Sepolia demo
+│   ├── lib/                           # OpenZeppelin + forge-std (via forge install)
+│   ├── foundry.toml
+│   ├── remappings.txt
+│   └── .env.example
+│
 ├── dashboards/
-│   └── dune/                  # SQL queries for Dune dashboards
+│   └── dune/
+│       ├── active_streams.sql
+│       ├── total_volume.sql
+│       └── README.md                  # Link to the live Dune dashboard
+│
+├── .github/
+│   └── workflows/
+│       └── test.yml                   # Runs forge test on every PR
+│
+├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
@@ -156,7 +213,7 @@ forge test -vvv
 
 ## Config
 
-Create a `.env` file in both `contracts/` and `apps/frontend/`:
+Create a `.env` file in root:
 
 ```env
 # Network Routing
@@ -173,4 +230,4 @@ ZERODEV_PROJECT_ID=your-zerodev-project-id
 
 ## Contributions
 
-Contributions are welcome! Fork the repository, create a descriptive feature branch (e.g. `feature/stream-settlement-fuzz-tests`), and open a Pull Request against `main` for review during the Arbitrum Open House hackathon timeline.
+Contributions are welcome! Fork the repository, create a descriptive feature branch (e.g. `feature/stream-settlement-fuzz-tests`), and open a Pull Request against `main` for review.

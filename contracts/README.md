@@ -45,11 +45,21 @@ $ forge snapshot
 $ anvil
 ```
 
-### Deploy
+### Deploy to Arbitrum Sepolia
+
+Copy `.env.example` to `.env` and set the real Arbitrum Sepolia RPC URL and the live USDC contract address for the network:
+
+```bash
+cp .env.example .env
+```
+
+Then deploy:
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+$ forge script script/DeployValve.s.sol --rpc-url $ARBITRUM_SEPOLIA_RPC_URL --broadcast
 ```
+
+The contract accepts a token address at runtime, so the active subscription token can be set to the real USDC contract on Arbitrum Sepolia rather than a mock or local stub.
 
 ### Cast
 

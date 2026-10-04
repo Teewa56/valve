@@ -24,7 +24,7 @@ export function ProviderPage() {
       {error && <div className="inline-error" role="alert">{error}</div>}
       {actionError && <div className="inline-error" role="alert">{actionError}</div>}
       {txHash && <a className="transaction-link" href={`https://sepolia.arbiscan.io/tx/${txHash}`} target="_blank" rel="noreferrer">View latest transaction on Arbiscan <ArrowUpRight size={14} /></a>}
-      <div className="list-toolbar"><div><h2>Incoming streams</h2><span>{address ? shortenAddress(address) : 'Wallet not connected'}</span></div></div>
+      <div className="list-toolbar"><div><h2>Incoming streams</h2><span onClick={() => address && navigator.clipboard.writeText(address)}>{address ? shortenAddress(address) : 'Wallet not connected'}</span></div></div>
       {isLoading && <div className="loading-line"><span className="loading-pulse" /> Reading provider streams…</div>}
       {address && !isLoading && streams.length === 0 && <section className="empty-state"><div className="empty-symbol"><CircleDollarSign size={21} /></div><div><h2>No incoming streams</h2><p>Streams addressed to this wallet appear here when a payer turns one on.</p></div></section>}
       <div className="provider-stream-list">{streams.map((stream) => <article className="provider-row" key={stream.id.toString()}>

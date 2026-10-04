@@ -1,12 +1,11 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import { createKernelAccount } from '@zerodev/sdk/accounts'
 import { createKernelAccountClient, createZeroDevPaymasterClient } from '@zerodev/sdk/clients'
-import { KERNEL_V3_3 } from '@zerodev/sdk/constants'
+import { getEntryPoint, KERNEL_V3_3 } from '@zerodev/sdk/constants'
 import { PasskeyValidatorContractVersion, toPasskeyValidator, toWebAuthnKey, WebAuthnMode } from '@zerodev/passkey-validator'
 import { createPublicClient, http, type Address } from 'viem'
-import { entryPoint07Address } from 'viem/account-abstraction'
 import { arbitrumSepolia } from 'viem/chains'
-import { frontendConfig, getZeroDevBundlerEndpoint, getZeroDevPaymasterEndpoint } from '../lib/chains'
+import { frontendConfig, getZeroDevRpc } from '../lib/chains'
 
 type AccountClient = ReturnType<typeof createKernelAccountClient>
 type AccountContextValue = {
@@ -32,24 +31,25 @@ export function ZeroDevProvider({ children }: { children: ReactNode }) {
   async function createAccount(mode: WebAuthnMode) {
     const publicClient = createPublicClient({ chain: arbitrumSepolia, transport: http(frontendConfig.rpcUrl) })
     const webAuthnKey = await toWebAuthnKey({ mode, rpID: window.location.hostname, passkeyName: 'Valve account', passkeyServerUrl: frontendConfig.passkeyServerUrl })
+    const entryPoint = getEntryPoint('0.7')
     const validator = await toPasskeyValidator(publicClient, {
       webAuthnKey,
-      entryPoint: { address: entryPoint07Address, version: '0.7' },
+      entryPoint,
       kernelVersion: KERNEL_V3_3,
       validatorContractVersion: PasskeyValidatorContractVersion.V0_0_3_PATCHED,
     })
     const account = await createKernelAccount(publicClient, {
       plugins: { sudo: validator },
-      entryPoint: { address: entryPoint07Address, version: '0.7' },
+      entryPoint,
       kernelVersion: KERNEL_V3_3,
     })
-    const bundlerEndpoint = getZeroDevBundlerEndpoint(frontendConfig.projectId)
-    const paymaster = createZeroDevPaymasterClient({ chain: arbitrumSepolia, transport: http(getZeroDevPaymasterEndpoint(frontendConfig.projectId)) })
+    const zerodevRpcUrl = getZeroDevRpc(frontendConfig.projectId, arbitrumSepolia.id)
+    const paymaster = createZeroDevPaymasterClient({ chain: arbitrumSepolia, transport: http(zerodevRpcUrl) })
     const accountClient = createKernelAccountClient({
       account,
       chain: arbitrumSepolia,
       client: publicClient,
-      bundlerTransport: http(bundlerEndpoint),
+      bundlerTransport: http(zerodevRpcUrl),
       paymaster: {
         getPaymasterData: (parameters) => paymaster.getPaymasterData(parameters),
         getPaymasterStubData: (parameters) => paymaster.getPaymasterStubData(parameters),

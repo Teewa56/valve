@@ -23,10 +23,6 @@ export const frontendConfig = {
   },
 }
 
-export function getZeroDevBundlerEndpoint(projectId: string) {
-  return `https://rpc.zerodev.app/api/v2/${projectId}/chain/${chainConfig.id}`
-}
-
-export function getZeroDevPaymasterEndpoint(projectId: string) {
-  return `https://rpc.zerodev.app/api/v2/paymaster/${projectId}`
+export function getZeroDevRpc(projectId: string, chainId: number) {
+  return `https://rpc.zerodev.app/api/v3/${projectId}/chain/${chainId}`
 }

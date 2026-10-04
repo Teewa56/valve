@@ -22,7 +22,7 @@ export function LoginPage() {
           <div className="trust-line"><ShieldCheck size={16} /><span>Passkey secured</span><span className="trust-separator" /><span>Arbitrum Sepolia</span></div>
         </div>
         <div className="flow-art" aria-label="A payment stream that stops when you switch it off">
-          <div className="flow-art-top"><span>PAYMENT FLOW</span><span>48H EXAMPLE</span></div>
+          <div className="flow-art-top"><span>PAYMENT FLOW</span><span>48H Service</span></div>
           <div className="flow-stage">
             <div className="flow-node wallet-node"><div className="node-icon"><Waves size={18} /></div><div><strong>Your wallet</strong><small>USDC stays yours</small></div></div>
             <div className="flow-track"><div className="track-base" /><div className="track-fill" /><span className="flow-particle particle-one" /><span className="flow-particle particle-two" /><span className="flow-particle particle-three" /></div>

@@ -175,4 +175,4 @@ npm run build
 
 ## Important Stream Behavior
 
-Creating a stream sets a per-stream maximum and requires the payer to approve the Vault, but it does not transfer the maximum upfront. Claims transfer accrued USDC directly from payer to provider, bounded by accrual, the stream cap, and the payer's shared USDC allowance and balance. Canceling one stream freezes that stream's accrual; it must not zero the Vault allowance because that allowance is shared with the payer's other streams. Any approved amount remains subject to each stream's individual Registry/Vault cap.
+Creating a stream sets a per-stream maximum and requires the payer to approve the Vault, but it does not transfer the maximum upfront. Claims transfer accrued USDC directly from payer to provider, bounded by accrual, the stream cap, and the payer's shared USDC allowance and balance. Canceling one stream freezes that stream's accrual; it does not zero the Vault allowance because that allowance is shared with the payer's other streams. Any approved amount remains subject to each stream's individual Registry/Vault cap.

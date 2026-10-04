@@ -1,3 +1,5 @@
+import { Buffer } from "buffer";
+(globalThis as any).Buffer = Buffer;
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@fontsource-variable/dm-sans'

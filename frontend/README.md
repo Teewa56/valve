@@ -1,32 +1,24 @@
-# React + TypeScript + Vite
+# Valve Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React, TypeScript, and Vite client for the Arbitrum Sepolia Valve contracts.
 
-Currently, two official plugins are available:
+## Configure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Copy `.env.example` to `.env` and provide a ZeroDev project ID, passkey service URL, and deployed Valve Registry and Vault proxy addresses. The default USDC address is Circle's Arbitrum Sepolia token. `VITE_` values are public client configuration; never put private keys or other secrets here.
 
-## React Compiler
+Passkey connection requires the configured ZeroDev project and passkey service. Until proxies are deployed and configured, the app intentionally does not create a wallet or submit transactions.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Routes
+
+- `/` passkey registration or reconnection
+- `/dashboard` payer streams, accrued usage, new stream creation, and per-stream cancellation
+- `/provider` incoming streams and provider claims
+
+Stream creation batches USDC approval with Registry creation. Turning a stream off cancels only that Registry stream. The ERC20 allowance is shared by all streams for a wallet and Vault, so it is intentionally not reset when one stream is canceled; each registered stream still has its own maximum settlement cap. The provider view claims earned USDC through the Registry. Contract ABIs in `lib/abis/` are generated from Foundry output; regenerate them after contract ABI changes.

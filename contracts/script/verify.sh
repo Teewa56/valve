@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Some Linux distributions install an unrelated `forge` executable in /usr/bin.
+# Prefer Foundry's standard per-user installation when it is available.
+if [[ -x "$HOME/.foundry/bin/forge" ]]; then
+    export PATH="$HOME/.foundry/bin:$PATH"
+fi
+
 # Run from the contracts directory after Deploy.s.sol has been broadcast.
 # Reads implementation and proxy constructor data from Foundry's latest broadcast record.
 chain_id=421614

@@ -187,6 +187,8 @@ valve-protocol/
 
 Smart contracts are written, compiled and tested with [Foundry](https://book.getfoundry.sh/).
 
+you can also check ./DEVELOPMENT.md for more details
+
 ### Prerequisites
 
 ```bash

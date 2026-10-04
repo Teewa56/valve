@@ -18,7 +18,11 @@ contract Deploy is Script {
     function run() external {
         if (block.chainid != 421614) revert WrongNetwork(block.chainid);
 
-        uint256 deployerKey = vm.envUint("PRIVATE_KEY");
+        string memory rawPrivateKey = vm.envString("PRIVATE_KEY");
+        bytes memory privateKeyBytes = bytes(rawPrivateKey);
+        bool hasHexPrefix = privateKeyBytes.length >= 2 && privateKeyBytes[0] == "0" &&
+            (privateKeyBytes[1] == "x" || privateKeyBytes[1] == "X");
+        uint256 deployerKey = vm.parseUint(hasHexPrefix ? rawPrivateKey : string.concat("0x", rawPrivateKey));
         address owner = vm.addr(deployerKey);
         IERC20Metadata usdcMetadata = IERC20Metadata(vm.envAddress("ARBITRUM_SEPOLIA_USDC"));
         if (address(usdcMetadata).code.length == 0) revert InvalidUSDC();

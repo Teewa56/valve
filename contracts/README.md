@@ -28,6 +28,17 @@ source .env
 forge script script/Deploy.s.sol:Deploy --rpc-url "$ARBITRUM_SEPOLIA_RPC_URL" --broadcast
 ```
 
+### Verify deployed contracts
+
+Set `ARBISCAN_API_KEY` in your shell, then run the verification helper from `contracts/`:
+
+```bash
+export ARBISCAN_API_KEY="your-arbiscan-api-key"
+./script/verify.sh
+```
+
+The helper reads the latest `Deploy.s.sol` broadcast record and submits both implementations and both ERC1967 proxies to Arbiscan. It requires `jq` and Foundry's `cast` command. A new deployment replaces `run-latest.json`, so verify before deploying again or use the matching saved broadcast record.
+
 The script refuses to run unless the chain ID is Arbitrum Sepolia (`421614`) and the configured USDC address contains contract code and reports six decimals. It deploys implementations and ERC1967 proxies, then links the Vault to the Registry.
 
 ## Upgrade

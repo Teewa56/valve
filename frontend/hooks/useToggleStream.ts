@@ -10,7 +10,7 @@ type Call = { to: Address; value: bigint; data: `0x${string}` }
 function actionErrorMessage(cause: unknown, fallback: string) {
   const message = cause instanceof Error ? cause.message : ''
   if (message.includes('0x969bf728') || message.includes('NothingToClaim')) {
-    return 'Nothing is claimable yet. Refresh the stream totals and try again after more USDC accrues.'
+    return 'The claim transferred no USDC. If accrued is above $0, the payer may need USDC in their wallet or more allowance for the Valve Vault. Ask them to check their balance and allowance, then retry.'
   }
   return message || fallback
 }

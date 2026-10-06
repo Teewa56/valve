@@ -220,7 +220,12 @@
 .button-outline:hover:not(:disabled) { border-color: #737e69; background: #f4f7ef; }
 .button-connected, .wallet-chip { min-height: 35px; padding: 0 10px; color: #33402b; border: 1px solid var(--line); background: var(--paper-strong); }
 .wallet-status { width: 7px; height: 7px; border-radius: 50%; background: #9fc83f; }
-.wallet-chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 650; }
+.wallet-control { display: inline-flex; align-items: center; gap: 4px; }
+.wallet-chip { display: inline-flex; align-items: center; gap: 8px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 650; }
+.wallet-chip:hover, .wallet-disconnect:hover { border-color: #aab49f; background: #f3f6ef; }
+.wallet-disconnect { min-width: 35px; min-height: 35px; display: inline-flex; align-items: center; justify-content: center; padding: 0 9px; color: #59634f; border: 1px solid var(--line); border-radius: 4px; background: var(--paper-strong); cursor: pointer; }
+.wallet-control.compact .wallet-disconnect { min-width: 30px; padding-inline: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
 .spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 

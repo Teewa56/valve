@@ -4,7 +4,7 @@ import { formatUsdc } from '../lib/contracts'
 
 type LiveCounterProps = { accrued: bigint; maxAmount: bigint; ratePerSecondX18: bigint; running: boolean }
 
-export function LiveCounter({ accrued, ratePerSecondX18, running }: LiveCounterProps) {
+export function LiveCounter({ accrued, maxAmount, ratePerSecondX18, running }: LiveCounterProps) {
   const [elapsedMilliseconds, setElapsedMilliseconds] = useState(0n)
 
   useEffect(() => {

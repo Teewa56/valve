@@ -32,7 +32,9 @@ export function useStreams(role: StreamRole) {
             publicClient.readContract({ address: registryAddress, abi: ValveRegistryAbi, functionName: 'accruedAmount', args: [id] }),
             publicClient.readContract({ address: vaultAddress, abi: ValveVaultAbi, functionName: 'streams', args: [id] }),
           ])
-          return { id, payer: stream.payer, provider: stream.provider, ratePerSecondX18: stream.ratePerSecondX18, maxAmount: stream.maxAmount, claimed: vaultStream.settledAmount, accrued, active: stream.active } satisfies StreamView
+          // Public mapping getters with multiple outputs decode as a positional
+          // tuple in viem, so settledAmount is the fourth output (index 3).
+          return { id, payer: stream.payer, provider: stream.provider, ratePerSecondX18: stream.ratePerSecondX18, maxAmount: stream.maxAmount, claimed: vaultStream[3], accrued, active: stream.active } satisfies StreamView
         } catch {
           return undefined
         }

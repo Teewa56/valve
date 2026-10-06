@@ -13,6 +13,6 @@ export function LoginButton({ compact = false, connectedAddress }: LoginButtonPr
 
   return <button className={compact ? 'button button-top-login' : 'button button-primary'} disabled={account.isBusy || !account.isConfigured} onClick={() => void account.connect()}>
     {account.isBusy ? <LoaderCircle className="spin" size={16} /> : <Fingerprint size={17} />}
-    {account.isBusy ? 'Opening passkey…' : compact ? 'Connect' : 'Continue with passkey'}
+    {account.isBusy ? account.isRestoring ? 'Restoring account…' : 'Opening passkey…' : compact ? 'Connect' : 'Continue with passkey'}
   </button>
 }

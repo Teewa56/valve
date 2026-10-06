@@ -37,6 +37,9 @@ export function useToggleStream() {
       const monthlyAmount = parseUnits(monthlyUsdc, 6)
       if (cap <= 0n || monthlyAmount <= 0n) throw new Error('Rate and spend cap must be greater than zero.')
       if (!address) throw new Error('Connect the passkey account before creating a stream.')
+      if (provider.toLowerCase() === address.toLowerCase()) {
+        throw new Error('Provider address must be different from your payer address.')
+      }
       const ratePerSecondX18 = monthlyAmount * RATE_SCALE / BigInt(SECONDS_PER_MONTH)
       const publicClient = createPublicClient({ chain: chainConfig, transport: http(frontendConfig.rpcUrl) })
       const currentAllowance = await publicClient.readContract({ address: frontendConfig.usdcAddress, abi: usdcAbi, functionName: 'allowance', args: [address, frontendConfig.vaultAddress] })

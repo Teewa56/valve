@@ -7,6 +7,14 @@ import { useZeroDevAccount } from './useZeroDevAccount'
 type CreateStreamArgs = { provider: Address; monthlyUsdc: string; maxUsdc: string }
 type Call = { to: Address; value: bigint; data: `0x${string}` }
 
+function actionErrorMessage(cause: unknown, fallback: string) {
+  const message = cause instanceof Error ? cause.message : ''
+  if (message.includes('0x969bf728') || message.includes('NothingToClaim')) {
+    return 'Nothing is claimable yet. Refresh the stream totals and try again after more USDC accrues.'
+  }
+  return message || fallback
+}
+
 export function useToggleStream() {
   const { address, client } = useZeroDevAccount()
   const [isPending, setIsPending] = useState(false)
@@ -23,7 +31,7 @@ export function useToggleStream() {
       setTxHash(hash)
       return hash
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'The user operation failed.')
+      setError(actionErrorMessage(cause, 'The user operation failed.'))
       throw cause
     } finally {
       setIsPending(false)
@@ -48,7 +56,7 @@ export function useToggleStream() {
         { to: frontendConfig.registryAddress, value: 0n, data: encodeFunctionData({ abi: ValveRegistryAbi, functionName: 'createStream', args: [provider, ratePerSecondX18, cap] }) },
       ])
     } catch (cause) {
-      if (cause instanceof Error) setError(cause.message)
+      setError(actionErrorMessage(cause, 'Could not create the stream.'))
       return undefined
     }
   }

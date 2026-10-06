@@ -12,6 +12,12 @@ export function ProviderPage() {
   const totalAccrued = streams.reduce((total, stream) => total + stream.accrued, 0n)
   const totalClaimed = streams.reduce((total, stream) => total + stream.claimed, 0n)
 
+  async function claimAndRefresh(streamId: bigint) {
+    const hash = await claimStream(streamId)
+    await refresh()
+    return hash
+  }
+
   return (
     <div className="dashboard-page provider-page">
       <div className="page-heading-row"><div><div className="eyebrow">SERVICE PROVIDER</div><h1>Provider view</h1><p className="page-lede">Accrual follows usage. Claims are yours to initiate.</p></div><button className="icon-button refresh-icon" onClick={() => void refresh()} title="Refresh earnings" aria-label="Refresh earnings"><RefreshCw size={16} /></button></div>
@@ -31,7 +37,7 @@ export function ProviderPage() {
         <div className="provider-service-avatar">V</div>
         <div className="provider-stream-info"><strong>Stream #{stream.id.toString().padStart(4, '0')}</strong><span>From {shortenAddress(stream.payer)} · {stream.active ? 'Running' : 'Stopped'}</span></div>
         <div className="provider-stream-earned"><small>ACCRUED</small><strong>{formatUsdc(stream.accrued)}</strong></div>
-        <button className="button button-outline claim-button" disabled={isPending || stream.accrued === 0n} onClick={() => void claimStream(stream.id).then((hash) => hash && refresh())}>{isPending ? 'Claiming…' : 'Claim'} <ArrowUpRight size={14} /></button>
+        <button className="button button-outline claim-button" disabled={isPending || stream.accrued === 0n} onClick={() => void claimAndRefresh(stream.id)}>{isPending ? 'Claiming…' : 'Claim'} <ArrowUpRight size={14} /></button>
       </article>)}</div>
       <div className="privacy-note"><span className="note-rule" />Claim transactions transfer only the amount already accrued under the payer’s cap.</div>
     </div>
